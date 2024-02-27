@@ -54,7 +54,7 @@
         <Key android:codes="-5" android:keyIcon="@drawable/ic_baseline_backspace_24" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="44" android:keyLabel="123" android:keyWidth="25%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="44" android:keyLabel="cry" android:keyWidth="25%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="32" android:keyLabel="space" android:keyWidth="75%p" android:isRepeatable="true"/>
         <Key android:codes="-4" android:keyBackground="@color/colorPrimary" android:keyLabel="return" android:keyWidth="25%p" android:keyEdgeFlags="right"/>
     </Row>
