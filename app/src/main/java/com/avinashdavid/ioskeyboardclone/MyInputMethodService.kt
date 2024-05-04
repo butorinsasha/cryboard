@@ -1,5 +1,6 @@
 package com.avinashdavid.ioskeyboardclone
 
+import android.app.AlertDialog
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
@@ -15,6 +16,7 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
     private var keyboard: Keyboard? = null
     private var caps = false
     private var cryptogram = charArrayOf()
+    private var message = charArrayOf()
 
     override fun onPress(p0: Int) {
     }
@@ -54,6 +56,7 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
 
                 44 -> {
                     Log.i(this.toString(), "cryptogram = $cryptogram")
+                    Log.i(this.toString(), "message = $message")
                     inputConnection.commitText(cryptogram.concatToString(), 1)
                     cryptogram = charArrayOf()
                 }
@@ -65,6 +68,8 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                     }
                     val encryptedCode = encryptChar(code, KEY)
                     this.cryptogram = cryptogram.plus(encryptedCode)
+                    this.message = message.plus(code)
+                    AlertDialog.Builder(this).setMessage(message.toString()).create().show()
                 }
             }
         }
