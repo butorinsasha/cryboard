@@ -8,28 +8,8 @@
     android:keyTextColor="#000000"
     android:keyBackground="@drawable/idk">
 
-    <EditText
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:text="Hello World"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:background="@color/purple_700"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-    <Row>
-        <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
-        <EditText
-            android:layout_width="220dp"
-            android:layout_height="40dp"
-            android:text="Hello World"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:background="@color/purple_700"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+    <Row android:rowEdgeFlags="bottom">
+        <Key android:codes="32" android:keyLabel="message" android:keyWidth="98%p" android:isRepeatable="true"/>
     </Row>
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
