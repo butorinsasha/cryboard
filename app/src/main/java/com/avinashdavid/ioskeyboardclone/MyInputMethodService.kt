@@ -31,13 +31,10 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                 Keyboard.KEYCODE_DELETE -> {
                     val selectedText = inputConnection.getSelectedText(0)
                     if (TextUtils.isEmpty(selectedText)) {
-                        inputConnection.deleteSurroundingText(1, 0)
+                        inputConnection.deleteSurroundingText(2, 0)
                     } else {
                         inputConnection.commitText("", 1)
                     }
-                    caps = !caps
-                    keyboard!!.isShifted = caps
-                    keyboardView!!.invalidateAllKeys()
                 }
 
                 Keyboard.KEYCODE_SHIFT -> {
