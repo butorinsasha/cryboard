@@ -9,8 +9,9 @@
     >
 
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="0" android:keyLabel="cry" android:keyWidth="12%p"  android:keyEdgeFlags="left"/>
-        <Key android:codes="32" android:keyLabel="message" android:keyWidth="98%p" android:isRepeatable="true"/>
+        <Key android:codes="111111111" android:keyLabel="encrypt" android:keyWidth="20%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="0" android:keyLabel="message" android:keyWidth="60%p" android:isRepeatable="true"/>
+        <Key android:codes="999999999" android:keyLabel="decrypt" android:keyWidth="20%p"  android:keyEdgeFlags="right"/>
     </Row>
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left" android:background="@drawable/rounded_key"/>

@@ -1,5 +1,7 @@
 package com.avinashdavid.ioskeyboardclone
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
@@ -14,8 +16,8 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
     private var keyboardView: KeyboardView? = null
     private var keyboard: Keyboard? = null
     private var caps = false
-    private var cryptogram = charArrayOf()
-    private var message = charArrayOf()
+    private var cryptogramCharArray = charArrayOf()
+    private var messageCharArray = charArrayOf()
 
     override fun onPress(p0: Int) {
     }
@@ -50,14 +52,28 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                     )
                 )
 
-                0 -> {
-                    Log.i(this.toString(), "cryptogram = ${cryptogram.concatToString()}")
-                    Log.i(this.toString(), "message = ${message.concatToString()}")
-                    inputConnection.commitText(cryptogram.concatToString(), 1)
+                111111111 -> {
+                    Log.i(this.toString(), "cryptogram = ${cryptogramCharArray.concatToString()}")
+                    Log.i(this.toString(), "message = ${messageCharArray.concatToString()}")
+                    inputConnection.commitText(cryptogramCharArray.concatToString(), 1)
 
-                    cryptogram = charArrayOf()
-                    message = charArrayOf()
-                    updateInputKeyView()
+                    cryptogramCharArray = charArrayOf()
+                    messageCharArray = charArrayOf()
+                    updateInputKeyView(messageCharArray.concatToString())
+                }
+
+                999999999 -> {
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    if (clipboard.hasPrimaryClip()) {
+                        val clipData = clipboard.primaryClip
+                        if (clipData != null && clipData.itemCount > 0) {
+                            if (keyboardView == null) return
+                            val currentKeyboard: Keyboard? = keyboardView?.keyboard
+                            val keys = currentKeyboard?.keys
+                            val cipherText = clipData.getItemAt(0).text?.toString()
+                            updateInputKeyView(cipherText)
+                        }
+                    }
                 }
 
                 else -> {
@@ -66,18 +82,19 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                         code = Character.toUpperCase(code)
                     }
                     val encryptedCode = encryptChar(code, KEY)
-                    this.cryptogram = cryptogram.plus(encryptedCode)
-                    this.message = message.plus(code)
-                    updateInputKeyView()
+                    this.cryptogramCharArray = cryptogramCharArray.plus(encryptedCode)
+                    this.messageCharArray = messageCharArray.plus(code)
+                    updateInputKeyView(messageCharArray.concatToString())
                 }
             }
         }
     }
-    private fun updateInputKeyView() {
+    private fun updateInputKeyView(message: String?) {
+        if (message == null) return
         if (keyboardView == null) return
         val currentKeyboard: Keyboard? = keyboardView?.keyboard
         val keys = currentKeyboard?.keys
-        keys?.get(1)?.label = message.concatToString()
+        keys?.get(1)?.label = message
         keyboardView?.invalidateKey(1)
     }
 
