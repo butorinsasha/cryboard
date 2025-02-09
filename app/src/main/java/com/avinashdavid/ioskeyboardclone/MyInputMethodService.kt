@@ -31,7 +31,7 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                 Keyboard.KEYCODE_DELETE -> {
                     val selectedText = inputConnection.getSelectedText(0)
                     if (TextUtils.isEmpty(selectedText)) {
-                        inputConnection.deleteSurroundingText(2, 0)
+                        inputConnection.deleteSurroundingText(1, 0)
                     } else {
                         inputConnection.commitText("", 1)
                     }
@@ -50,12 +50,14 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                     )
                 )
 
-                44 -> {
+                0 -> {
                     Log.i(this.toString(), "cryptogram = ${cryptogram.concatToString()}")
                     Log.i(this.toString(), "message = ${message.concatToString()}")
                     inputConnection.commitText(cryptogram.concatToString(), 1)
+
                     cryptogram = charArrayOf()
                     message = charArrayOf()
+                    updateInputKeyView()
                 }
 
                 else -> {
@@ -75,8 +77,8 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
         if (keyboardView == null) return
         val currentKeyboard: Keyboard? = keyboardView?.keyboard
         val keys = currentKeyboard?.keys
-        keys?.get(0)?.label = message.concatToString()
-        keyboardView?.invalidateKey(0)
+        keys?.get(1)?.label = message.concatToString()
+        keyboardView?.invalidateKey(1)
     }
 
 
