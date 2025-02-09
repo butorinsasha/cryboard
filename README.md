@@ -1,2 +1,2 @@
-# iOSKeyboardClone
-This is for Mika
+# cryboard
+This is for people
