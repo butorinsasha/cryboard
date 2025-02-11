@@ -67,11 +67,9 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                     if (clipboard.hasPrimaryClip()) {
                         val clipData = clipboard.primaryClip
                         if (clipData != null && clipData.itemCount > 0) {
-                            if (keyboardView == null) return
-                            val currentKeyboard: Keyboard? = keyboardView?.keyboard
-                            val keys = currentKeyboard?.keys
-                            val cipherText = clipData.getItemAt(0).text?.toString()
-                            updateInputKeyView(cipherText)
+                            val cryptogram = clipData.getItemAt(0).text?.toString()
+                            val message = decryptMessage(cryptogram, KEY)
+                            updateInputKeyView(message)
                         }
                     }
                 }
@@ -84,7 +82,8 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
                     val encryptedCode = encryptChar(code, KEY)
                     this.cryptogramCharArray = cryptogramCharArray.plus(encryptedCode)
                     this.messageCharArray = messageCharArray.plus(code)
-                    updateInputKeyView(messageCharArray.concatToString())
+                    val message = messageCharArray.concatToString()
+                    updateInputKeyView(message)
                 }
             }
         }
@@ -124,16 +123,34 @@ class MyInputMethodService : InputMethodService(), KeyboardView.OnKeyboardAction
         return keyboardView!!
     }
 
-    private fun encryptMessage(message: String, key: Int): String {
-        val messageCharArray = message.toCharArray()
-        val cryptogramCharArray = charArrayOf()
-        for (ch in messageCharArray) {
-            cryptogramCharArray.plus(ch + key)
-        }
-        return cryptogramCharArray.toString()
-    }
 
     private fun encryptChar(char: Char, key: Int): Char {
         return char + key
     }
+
+    private fun decryptChar(char: Char, key: Int): Char {
+        return char - key
+    }
+
+    private fun encryptMessage(message: String, key: Int): String {
+        val messageCharArray = message.toCharArray()
+        var cryptogramCharArray = charArrayOf()
+        for (char in messageCharArray) {
+            cryptogramCharArray = cryptogramCharArray.plus(encryptChar(char, key))
+        }
+        return cryptogramCharArray.concatToString()
+    }
+
+    private fun decryptMessage(cryptogram: String?, key: Int): String {
+        val cryptogramCharArray = cryptogram?.toCharArray()
+        var messageCharArray = charArrayOf()
+        if (cryptogramCharArray != null) {
+            for (char in cryptogramCharArray) {
+                messageCharArray = messageCharArray.plus(decryptChar(char, key))
+            }
+        }
+        return messageCharArray.concatToString()
+    }
+
+
 }
